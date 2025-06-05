@@ -109,6 +109,10 @@ class YdyldImage:
                 yield YdyldSymbol(sym, string_table_ptr)
 
 
+RTLD_LAZY = 0x1
+RTLD_NOW = 0x2
+RTLD_LOCAL = 0x4
+RTLD_GLOBAL = 0x8
 class YdyldSession:
     def __init__(self):
         self._self_loaded = {}
@@ -124,7 +128,7 @@ class YdyldSession:
         for i in range(count):
             yield YdyldImage(i)
 
-    def load_image(self, path: str, flags=ctypes.RTLD_NOW):
+    def load_image(self, path: str, flags=RTLD_NOW):
         """Loads a dynamic library and returns its handle."""
         handle = ctypes.cdll.LoadLibrary(path)  # OR: ctypes.CDLL(path, mode=flags)
         return handle
